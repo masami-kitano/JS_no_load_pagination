@@ -1,0 +1,28 @@
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.works__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.works__list-content {
+    width: 29%;
+}
+
+.pagenation {
+    display: flex;
+    justify-content: center;
+}
+
+.pagenation > div {
+    margin: 10px 20px;
+    cursor: pointer;
+}
+
+.page-num.current{
+    background: blue;
+}
