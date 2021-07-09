@@ -1,41 +1,67 @@
 <!DOCTYPE html>
 <head>
   <title>JS Pagination</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 <body>
-  <div class="works__list">
-    <div data-work-group-index="1" class="works__list-content">
-      <img src="./images/1.jpg">
+  <div class="list">
+    <div data-work-group-index="1" class="item">
+      <img src="./assets/images/1.jpg">
       <p>1</p>
     </div>
-    <div data-work-group-index="1" class="works__list-content">
-      <img src="./images/2.jpg">
+    <div data-work-group-index="1" class="item">
+      <img src="./assets/images/2.jpg">
       <p>1</p>
     </div>
-    <div data-work-group-index="1" class="works__list-content">
-      <img src="./images/3.jpg">
+    <div data-work-group-index="1" class="item">
+      <img src="./assets/images/3.jpg">
       <p>1</p>
     </div>
-    <div data-work-group-index="2" class="works__list-content">
-      <img src="./images/2.jpg">
+    <div data-work-group-index="2" class="item">
+      <img src="./assets/images/2.jpg">
       <p>2</p>
     </div>
-    <div data-work-group-index="2" class="works__list-content">
-      <img src="./images/3.jpg">
+    <div data-work-group-index="2" class="item">
+      <img src="./assets/images/3.jpg">
       <p>2</p>
     </div>
-    <div data-work-group-index="2" class="works__list-content">
-      <img src="./images/1.jpg">
+    <div data-work-group-index="2" class="item">
+      <img src="./assets/images/1.jpg">
       <p>2</p>
+    </div>
+    <div data-work-group-index="3" class="item">
+      <img src="./assets/images/3.jpg">
+      <p>3</p>
+    </div>
+    <div data-work-group-index="3" class="item">
+      <img src="./assets/images/1.jpg">
+      <p>3</p>
+    </div>
+    <div data-work-group-index="3" class="item">
+      <img src="./assets/images/2.jpg">
+      <p>3</p>
+    </div>
+    <div data-work-group-index="4" class="item">
+      <img src="./assets/images/1.jpg">
+      <p>4</p>
+    </div>
+    <div data-work-group-index="4" class="item">
+      <img src="./assets/images/2.jpg">
+      <p>4</p>
+    </div>
+    <div data-work-group-index="4" class="item">
+      <img src="./assets/images/3.jpg">
+      <p>4</p>
     </div>
   </div>
   <div id="pagenation" class="pagenation">
-    <div id="previous-post-link" class="previous-post-link">＜</div>
-    <div id="left-num" class="page-num current">1</div>
-    <div id="center-num" class="page-num">2</div>
-    <div id="right-num" class="page-num">3</div>
-    <div id="next-post-link" class="next-post-link">＞</div>
+    <div class="pagenation-inner">
+      <div id="previous-post-link" class="post-link previous-post-link"></div>
+      <div id="left-num" class="page-num current">1</div>
+      <div id="center-num" class="page-num">2</div>
+      <div id="right-num" class="page-num">3</div>
+      <div id="next-post-link" class="post-link next-post-link"></div>
+    </div>
   </div>
-  <script tyle="text/javascript" src="index.js"></script>
+  <script tyle="text/javascript" src="./assets/js/app.js"></script>
 </body>

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const worksList = document.querySelectorAll('.works__list-content');
+  const listItem = document.querySelectorAll('.item');
   const pageNums = document.querySelectorAll('.page-num');
   const previousPostLink = document.getElementById('previous-post-link');
   const leftNum = document.getElementById('left-num');
@@ -13,7 +13,7 @@
   let maxPageNum = 0;
   let workItemCount = 0;
 
-  worksList.forEach((workItem, index) => {
+  listItem.forEach((workItem, index) => {
     // 最初のレンダリングで4つ目以降の要素を削除
     if (index > 2) {
       workItem.style.display = 'none';
@@ -29,20 +29,20 @@
   // 最初は1からスタートなので、前ページリンクは削除
   previousPostLink.style.display = 'none';
 
+  // 最大ページが2だった場合にrightNumは消す
   if (maxPageNum === 2) {
     rightNum.style.display = 'none';
+  }
 
-    // ページネーション番号をクリックした際の処理
-    pageNums.forEach((pageNum) => {
-      pageNum.addEventListener('click', function () {
-        let clickGroupNum = Number(this.innerText);
+  // ページネーション番号をクリックした際の処理
+  pageNums.forEach((pageNum) => {
+    pageNum.addEventListener('click', function () {
+      let clickGroupNum = Number(this.innerText);
 
-        switchItem(worksList, clickGroupNum);
+      if (maxPageNum === 2) {
+        removeCurrentElement(pageNums);
+        switchItem(listItem, clickGroupNum);
         switchNum(clickGroupNum);
-
-        pageNums.forEach((pageNum) => {
-          pageNum.classList.remove('current');
-        });
 
         if (clickGroupNum === 1) {
           leftNum.classList.add('current');
@@ -53,39 +53,11 @@
           previousPostLink.style.display = 'block';
           nextPostLink.style.display = 'none';
         }
-      });
-    });
-
-    previousPostLink.addEventListener('click', function () {
-      previousPostLink.style.display = 'none';
-      nextPostLink.style.display = 'block';
-      leftNum.classList.add('current');
-      centerNum.classList.remove('current');
-      switchItem(worksList, 1);
-      switchNum(1);
-    });
-
-    nextPostLink.addEventListener('click', function () {
-      previousPostLink.style.display = 'block';
-      nextPostLink.style.display = 'none';
-      leftNum.classList.remove('current');
-      centerNum.classList.add('current');
-      switchItem(worksList, 2);
-      switchNum(2);
-    });
-  } else {
-    // ページネーション番号をクリックした際の処理
-    pageNums.forEach((pageNum) => {
-      pageNum.addEventListener('click', function () {
-        let clickGroupNum = Number(this.innerText);
-
+      } else {
         switchPreviousLink();
         switchNextLink(clickGroupNum);
-        switchItem(worksList, clickGroupNum);
-
-        pageNums.forEach((pageNum) => {
-          pageNum.classList.remove('current');
-        });
+        switchItem(listItem, clickGroupNum);
+        removeCurrentElement(pageNums);
 
         if (clickGroupNum === 1) {
           currentFirstPage();
@@ -100,11 +72,20 @@
           previousPostLink.style.display = 'block';
           centerNum.classList.add('current');
         }
-      });
+      }
     });
+  });
 
-    // 前リンクをクリックした際の処理
-    previousPostLink.addEventListener('click', function () {
+  // 前ページリンクを押下した際の処理
+  previousPostLink.addEventListener('click', function () {
+    if (maxPageNum === 2) {
+      previousPostLink.style.display = 'none';
+      nextPostLink.style.display = 'block';
+      leftNum.classList.add('current');
+      centerNum.classList.remove('current');
+      switchItem(listItem, 1);
+      switchNum(1);
+    } else {
       let previousNum = 0;
 
       pageNums.forEach((pageNum) => {
@@ -118,27 +99,32 @@
         }
       });
 
-      if (previousNum === 1) {
-        leftNum.classList.add('current');
-      } else {
-        centerNum.classList.add('current');
-      }
-
       nextPostLink.style.display = 'block';
       switchPreviousLink();
-      switchItem(worksList, previousNum);
+      switchItem(listItem, previousNum);
 
       if (previousNum === 1) {
         currentFirstPage();
         previousPostLink.style.display = 'none';
+        leftNum.classList.add('current');
       } else {
         switchNum(previousNum);
         previousPostLink.style.display = 'block';
+        centerNum.classList.add('current');
       }
-    });
+    }
+  });
 
-    // 次リンクをクリックした際の処理
-    nextPostLink.addEventListener('click', function () {
+  // 次ページリンクを押下した際の処理
+  nextPostLink.addEventListener('click', function () {
+    if (maxPageNum === 2) {
+      previousPostLink.style.display = 'block';
+      nextPostLink.style.display = 'none';
+      leftNum.classList.remove('current');
+      centerNum.classList.add('current');
+      switchItem(listItem, 2);
+      switchNum(2);
+    } else {
       let nextNum = 0;
 
       pageNums.forEach((pageNum) => {
@@ -148,26 +134,20 @@
         }
       });
 
-      if (nextNum === maxPageNum) {
-        rightNum.classList.add('current');
-      } else {
-        centerNum.classList.add('current');
-      }
-
       switchPreviousLink();
       switchNextLink(nextNum);
-      switchItem(worksList, nextNum);
+      switchItem(listItem, nextNum);
 
       if (nextNum === maxPageNum) {
         currentLastPage();
         nextPostLink.style.display = 'none';
+        rightNum.classList.add('current');
       } else {
         switchNum(nextNum);
+        centerNum.classList.add('current');
       }
-    });
-  }
-
-
+    }
+  });
 
   // 表示要素の切り替え用の関数
   const switchItem = (itemList, switchCondition) => {
@@ -215,9 +195,9 @@
 
   // 1ページ
   const currentFirstPage = () => {
-    leftNum.innerText = 1;
-    centerNum.innerText = 2;
-    rightNum.innerText = 3;
+    leftNum.innerText = '1';
+    centerNum.innerText = '2';
+    rightNum.innerText = '3';
   };
 
   // ラストページ
@@ -225,5 +205,12 @@
     leftNum.innerText = maxPageNum - 2;
     centerNum.innerText = maxPageNum - 1;
     rightNum.innerText = maxPageNum;
+  };
+
+  // currentクラスを削除
+  const removeCurrentElement = (pageNums) => {
+    pageNums.forEach((pageNum) => {
+      pageNum.classList.remove('current');
+    });
   };
 })();
